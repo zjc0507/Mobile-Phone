@@ -126,8 +126,6 @@ public class PaintView extends View implements View.OnTouchListener {
             //point = new Point(x, y, random.nextInt());
             //添加元素到数组里
             points.add(point);
-            ArrayList<Redo> redo = new ArrayList<Redo>();
-            ArrayList<Undo> undo = new ArrayList<Undo>();
             //redo.add(points);
 
             invalidate();
