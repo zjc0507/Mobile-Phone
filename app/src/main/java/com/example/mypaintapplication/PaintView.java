@@ -37,6 +37,7 @@ public class PaintView extends View implements View.OnTouchListener {
     private int currentTime;
     private int oldTime = -2000000000;
 
+
     @Override
     public void setOnTouchListener(OnTouchListener l) {
         super.setOnTouchListener(l);
@@ -84,6 +85,26 @@ public class PaintView extends View implements View.OnTouchListener {
         invalidate();
         oldX = x;
         oldY = y;
+
+//      int width = getWidth();
+//        int height = getHeight() - 300;
+//
+//        if (point.x + x >= width) {
+//            x = -x;
+//        }else if((point.x + x) < 0){
+//            x = -x;
+//        }
+//
+//        if (point.y + y >= height){
+//            y = -y;
+//            point.y = height;
+//        }else if ((point.y + y) < 0){
+//            y = -y;
+//        }
+//
+//        point.x += x;
+//        point.y += y;
+//        y = y + g;
     }
 
     @Override
@@ -94,17 +115,31 @@ public class PaintView extends View implements View.OnTouchListener {
         x = event.getX();
         y = event.getY();
 
-        if(action == MotionEvent.ACTION_POINTER_DOWN || action == MotionEvent.ACTION_MOVE){
-            touchDown = true;
-            //创建新的point 有4个属性，seekbar后大小不变
-            Point point = new Point(event.getX(),event.getY(),random.nextInt(), radius);
-            //添加元素到数组里
-            points.add(point);
-            invalidate();
+        switch(action) {
+            case MotionEvent.ACTION_DOWN:
+                System.out.println("ACTION_DOWN");
+                touchDown = true;
+            case MotionEvent.ACTION_POINTER_DOWN:
+                System.out.println("ACTION_POINTER_DOWN");
+            case MotionEvent.ACTION_MOVE:
+                System.out.println("ACTION_MOVE");
+                for(int i = 0; i < event.getPointerCount(); i++) {
+                    //创建新的point 有4个属性，seekbar后大小不变
+                    Point point = new Point(event.getX(i),event.getY(i),random.nextInt(), radius);
+                    //添加元素到数组里
+                    points.add(point);
+                }
+                invalidate();
+                break;
+            case MotionEvent.ACTION_POINTER_UP:
+                System.out.println("ACTION_POINTER_UP");
+                break;
+            case MotionEvent.ACTION_UP:
+                System.out.println("ACTION_UP");
+                touchDown = false;
+                break;
         }
-        else if(action == MotionEvent.ACTION_POINTER_UP) {
-            touchDown = false;
-        }
+
         return true;
     }
 }
