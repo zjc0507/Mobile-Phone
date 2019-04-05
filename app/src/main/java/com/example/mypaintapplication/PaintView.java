@@ -36,6 +36,7 @@ public class PaintView extends View implements View.OnTouchListener {
     private float oldY;
     private int currentTime;
     private int oldTime = -2000000000;
+    int countTouch = 0;
 
 
     @Override
@@ -62,6 +63,7 @@ public class PaintView extends View implements View.OnTouchListener {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         Paint paint = new Paint();
+
        // paint.setColor(RED);
 
         //change color
@@ -75,10 +77,16 @@ public class PaintView extends View implements View.OnTouchListener {
 
         if(x == oldX && y == oldY && touchDown == true){
             if(currentTime > oldTime + 500) {
-                points.get(points.size() - 1).colour = random.nextInt();
+                //points.get(points.size() - 1).colour = random.nextInt();
                // System.out.println("数组长度"+points.size());
                 oldTime = currentTime;
+//                int countPoints = points.size();
+//                int indexLastPoint = countPoints - 1;
+//                Point lastPoint = points.get(indexLastPoint);
 
+                for(int i = 1; i<=countTouch;i++){
+                    points.get(points.size() - i).colour = random.nextInt();
+                }
             }
         }
 
@@ -109,12 +117,14 @@ public class PaintView extends View implements View.OnTouchListener {
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        int firstIndex, secondIndex;
         int action = event.getActionMasked();
-        int actionIndex = event.getActionIndex();
         x = event.getX();
         y = event.getY();
+        countTouch=event.getPointerCount();
 
+
+
+        //判断是否是多点
         switch(action) {
             case MotionEvent.ACTION_DOWN:
                 System.out.println("ACTION_DOWN");
@@ -129,7 +139,6 @@ public class PaintView extends View implements View.OnTouchListener {
                     //添加元素到数组里
                     points.add(point);
                 }
-
                 invalidate();
                 break;
             case MotionEvent.ACTION_POINTER_UP:
