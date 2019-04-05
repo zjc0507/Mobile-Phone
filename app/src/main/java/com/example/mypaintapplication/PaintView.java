@@ -129,6 +129,7 @@ public class PaintView extends View implements View.OnTouchListener {
                     //添加元素到数组里
                     points.add(point);
                 }
+
                 invalidate();
                 break;
             case MotionEvent.ACTION_POINTER_UP:
