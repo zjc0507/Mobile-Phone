@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -24,9 +25,12 @@ import static android.graphics.Color.RED;
 
 public class PaintView extends View implements View.OnTouchListener {
 
+
+
     private Random random = new Random();
-    //arrarylist for change coclor
-    private ArrayList<Point> points = new ArrayList<Point>();
+    //arrarylist for changing coclor
+    ArrayList<Point> points = new ArrayList<Point>();
+    ArrayList<Point> redo = new ArrayList<Point>();
     public int radius = 40;
     private boolean touchDown = false;
     //private PointF point = new PointF(500, 200);
@@ -37,7 +41,6 @@ public class PaintView extends View implements View.OnTouchListener {
     private int currentTime;
     private int oldTime = -2000000000;
     int countTouch = 0;
-
 
     @Override
     public void setOnTouchListener(OnTouchListener l) {
@@ -83,12 +86,14 @@ public class PaintView extends View implements View.OnTouchListener {
 //                int countPoints = points.size();
 //                int indexLastPoint = countPoints - 1;
 //                Point lastPoint = points.get(indexLastPoint);
-
+            //change all points during langpress
                 for(int i = 1; i<=countTouch;i++){
                     points.get(points.size() - i).colour = random.nextInt();
                 }
             }
         }
+
+
 
         invalidate();
         oldX = x;
@@ -138,7 +143,10 @@ public class PaintView extends View implements View.OnTouchListener {
                     Point point = new Point(event.getX(i),event.getY(i),random.nextInt(), radius);
                     //添加元素到数组里
                     points.add(point);
+
                 }
+
+
                 invalidate();
                 break;
             case MotionEvent.ACTION_POINTER_UP:
@@ -150,6 +158,35 @@ public class PaintView extends View implements View.OnTouchListener {
                 break;
         }
 
+        //undo
+//        MainActivity.btnundo = findViewById(R.id.btnundo);
+//        btnundo.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //redo.get(reodo.size() - 1).colour = random.nextInt();
+//                undo.add(points.get(lastPoint));
+//                System.out.println(undo.size());
+//            }
+//        });
+
         return true;
     }
+
+    public void undo(){
+        if(points.size() == 0)
+            return;
+        Point lastPoint = points.get(points.size() - 1);
+        points.remove(lastPoint);
+        redo.add(lastPoint);
+        System.out.println(redo.size());
+    }
+
+    public void redo(){
+        if(redo.size() == 0)
+            return;
+
+        points.add(redo.remove(redo.size() - 1));
+    }
+
+
 }

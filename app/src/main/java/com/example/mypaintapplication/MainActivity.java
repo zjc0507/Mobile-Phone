@@ -19,8 +19,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private SeekBar seekBar;
-    private Button redo;
-    private Button undo;
+     Button btnredo;
+     Button btnundo;
     private PaintView paintView;
 
     @Override
@@ -28,8 +28,9 @@ public class MainActivity extends AppCompatActivity {
        super.onCreate(savedInstanceState);
        setContentView(R.layout.activity_main);
        seekBar = findViewById(R.id.seekBar);
-       redo = findViewById(R.id.redo);
-       undo = findViewById(R.id.undo);
+       btnredo = findViewById(R.id.btnredo);
+       btnundo = findViewById(R.id.btnundo);
+
        paintView = findViewById(R.id.view);
 
        seekBar.setMax(80);
@@ -52,13 +53,22 @@ public class MainActivity extends AppCompatActivity {
 
        });
 
-       //redo
-       redo.setOnClickListener(new View.OnClickListener() {
+       btnundo.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               //redo.get(reodo.size() - 1).colour = random.nextInt();
+               paintView.undo();
            }
        });
+       btnredo.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               paintView.redo();
+           }
+       });
+
+
+
+
 
 
 
