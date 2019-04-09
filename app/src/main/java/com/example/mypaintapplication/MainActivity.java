@@ -13,14 +13,16 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private SeekBar seekBar;
-     Button btnredo;
-     Button btnundo;
+    Button btnredo;
+    Button btnundo;
+    Switch switch1;
     private PaintView paintView;
 
     @Override
@@ -31,10 +33,12 @@ public class MainActivity extends AppCompatActivity {
        btnredo = findViewById(R.id.btnredo);
        btnundo = findViewById(R.id.btnundo);
 
+
        paintView = findViewById(R.id.view);
 
        seekBar.setMax(80);
        seekBar.setProgress(20);
+       //seekbar
        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
            @Override
            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -53,12 +57,16 @@ public class MainActivity extends AppCompatActivity {
 
        });
 
+
+       //undo function
        btnundo.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
                paintView.undo();
            }
        });
+
+        //redo function
        btnredo.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
@@ -66,6 +74,18 @@ public class MainActivity extends AppCompatActivity {
            }
        });
 
+       switch1.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               boolean on = ((Switch) v).isChecked();
+               if(on)
+               {
+                   System.out.println("Switch is on....");
+               }else{
+                   System.out.println("Switch is off....");
+               }
+           }
+       });
 
 
 

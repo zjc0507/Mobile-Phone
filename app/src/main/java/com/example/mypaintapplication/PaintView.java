@@ -143,9 +143,11 @@ public class PaintView extends View implements View.OnTouchListener {
                     Point point = new Point(event.getX(i),event.getY(i),random.nextInt(), radius);
                     //添加元素到数组里
                     points.add(point);
-
                 }
-
+                //当出现新点清空redolist；
+                if(redo.size()!=0){
+                    redo.clear();
+                }
 
                 invalidate();
                 break;
@@ -172,6 +174,7 @@ public class PaintView extends View implements View.OnTouchListener {
         return true;
     }
 
+    //undo 找到数组中的最后一个，移除，添加到redolist里
     public void undo(){
         if(points.size() == 0)
             return;
@@ -181,6 +184,7 @@ public class PaintView extends View implements View.OnTouchListener {
         System.out.println(redo.size());
     }
 
+    //redo
     public void redo(){
         if(redo.size() == 0)
             return;
